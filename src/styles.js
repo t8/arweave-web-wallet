@@ -10,10 +10,10 @@ const styles = theme => ({
     },
     bootstrapInput: {
       borderRadius: 8,
-      backgroundColor: '#cee9d1',
-      border: '1px solid #ced4da',
+      backgroundColor: '#b2bec3',
+      border: '1px solid #b2bec3',
       fontSize: 10,
-      width: '300px',
+      width: '250px',
       padding: '5px 6px',
       transition: theme.transitions.create(['border-color', 'box-shadow']),
     },

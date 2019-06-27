@@ -9,8 +9,10 @@ const LoadWallet = ({handleWalletUpload,confirmLoadWallet,handlePassCheck,boolPa
       <Grid container direction="column" justify="center" alignContent="center" alignItems="center">
             <Typography align="center" style={{padding:5}} variant="body2">Upload you Arweave Wallet</Typography>
             <input style={{paddingBottom:15, maxWidth:350}} type="file" onChange={ e => handleWalletUpload(e, 'loadWalletData')} />
+            <Grid container  justify="center" alignContent="center"  direction="row">
             <Checkbox value={boolPassWallet} onChange={handlePassCheck('boolPassLoadWallet')}  color="default" />
-            <Typography>Password</Typography>
+            <Typography style={{paddingTop:13}}>Password</Typography>
+            </Grid>
             <InputBase
             type={'password'}
             classes={{
@@ -20,7 +22,7 @@ const LoadWallet = ({handleWalletUpload,confirmLoadWallet,handlePassCheck,boolPa
             name="passLoadWallet"
             onChange={e => change(e)}
             />
-            <Button onClick={confirmLoadWallet} variant="contained">Continue</Button>
+            <Button onClick={confirmLoadWallet} style={{backgroundColor:'black', color:'white', marginTop:15}} variant="contained">Continue</Button>
       </Grid>
     )
 }

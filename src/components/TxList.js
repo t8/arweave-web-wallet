@@ -1,5 +1,5 @@
 import React from 'react'
-import { Grid, Button, Paper, Typography, InputBase} from '@material-ui/core'
+import { Grid, Paper, Typography } from '@material-ui/core'
 
 const TxList = ({txList}) => {
     return(
@@ -11,10 +11,10 @@ const TxList = ({txList}) => {
           <Paper style={{padding:10}}>
           <Typography variant="caption">TRANSACTION ID</Typography>
           <Typography>{item.txId}</Typography>
-          <Typography>To:{item.to}</Typography>
+          <Typography style={{fontSize:10}}>To:{item.to}</Typography>
           <Grid container direction="row">
-            <Typography style={{paddingRight:10}}>Value: {item.value}</Typography>
-            <Typography>Fee: {item.reward}</Typography>
+            <Typography style={{paddingRight:10,fontSize:10}}>Value: {item.value}</Typography>
+            <Typography style={{fontSize:10}}>Fee: {item.reward}</Typography>
           </Grid>
           </Paper>
         )

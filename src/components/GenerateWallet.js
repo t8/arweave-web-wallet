@@ -5,10 +5,11 @@ import styles from '../styles'
 
 const GenerateWallet = ({generateWallet, classes, handlePassCheck, boolPassWallet, change}) => {
     return(
-      <Grid container style={{paddingTop:15}} justify="center" alignContent="center" direction="column">
-        <Button variant="contained" style={{backgroundColor:'black', color:'white'}} onClick={generateWallet}>Generate Wallet</Button> 
-        <Checkbox color="default" value={boolPassWallet} onChange={handlePassCheck('boolPassGenerateWallet')} />
-            <Typography>Password</Typography>
+      <Grid container style={{paddingTop:5}} justify="center" alignContent="center" alignItems="center" direction="column">
+            <Grid container  justify="center" alignContent="center"  direction="row">
+            <Checkbox color="default" value={boolPassWallet} onChange={handlePassCheck('boolPassGenerateWallet')} />
+            <Typography style={{paddingTop:13}}>Password</Typography>
+            </Grid>
             <InputBase
             type={'password'}
             classes={{
@@ -18,6 +19,7 @@ const GenerateWallet = ({generateWallet, classes, handlePassCheck, boolPassWalle
             name="passGenerateWallet"
             onChange={e => change(e)}
             />
+            <Button variant="contained" style={{backgroundColor:'black', color:'white', marginTop:15}} onClick={generateWallet}>Generate Wallet</Button> 
       </Grid>
     )
   }

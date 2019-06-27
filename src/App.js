@@ -167,7 +167,6 @@ class App extends React.Component {
 
   transferCrypto = async() => {
     try{
-      let txArray = this.state.txSendArray
       let walletData = this.state.walletData
       if(this.state.cryptoWallet){
         walletData = await decryptWallet(walletData, this.state.cryptoTxPass)
@@ -209,7 +208,6 @@ class App extends React.Component {
         txArray.push(obj)
         const newBalance  = Decimal.sub(arwBalance, arValue).valueOf()
         this.setState({cryptoTxPass:'',txSendArray:txArray, arValue:'', arReceiverAddress:'', txRunning:false, arwBalance:newBalance, modalTx:false})
-        const status = await arweave.transactions.getStatus(transaction.id)
         walletData = ''
         alert('Transaction Deploy')
         return
@@ -275,7 +273,7 @@ class App extends React.Component {
   render(){
     return (
       <Fragment>
-        <AppBar position="fixed"><Toolbar>
+        <AppBar position="fixed" style={{alignItems:"center"}}><Toolbar>
           <Typography align="center" variant="h6">Arweave Simple Wallet</Typography>
         </Toolbar></AppBar>    
         <Grid container style={{backgroundColor:'black', minHeight:'100vh', marginTop:30}} justify="center" alignContent='center' direction="column">
