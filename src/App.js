@@ -1,11 +1,9 @@
 import React, { Fragment } from 'react';
 import './App.css';
-import { Grid, Checkbox,Tabs, Tab, Typography, Paper, Button, Divider, FormControl, InputLabel, InputBase, Dialog, DialogContent, CircularProgress, AppBar, Toolbar } from '@material-ui/core';
+import { Grid, Tabs, Tab, Typography, Paper, Dialog, DialogContent, AppBar, Toolbar } from '@material-ui/core';
 import Arweave from 'arweave/web';
 import { withStyles } from '@material-ui/core/styles'
-import { chain, add } from 'mathjs'
 import {Decimal} from 'decimal.js';
-import AES from "crypto-js/aes"
 import { createTransaction, signAndDeployTransaction, getAddressAndBalance, decryptWallet, encryptWallet } from './utils/arweaveUtils';
 import styles from './styles'
 import LoadWallet from './components/LoadWallet';
@@ -14,7 +12,6 @@ import EncryptWallet from './components/EncryptWallet';
 import TxList from './components/TxList';
 import ConfirmTxModal from './components/ConfirmTxModal';
 import WalletHome from './components/WalletHome';
-import { cipher } from 'node-forge';
 
 
 const arweave = Arweave.init({
@@ -152,8 +149,6 @@ class App extends React.Component {
     let walletObj = JSON.parse(this.state.encryptWalletData)
     const address = await arweave.wallets.jwkToAddress(walletObj)
     const cipherWallet = await encryptWallet(walletObj, this.state.passEncryptWallet)
-    console.log(cipherWallet)
-    console.log(typeof cipher)
     const url = window.URL.createObjectURL(new Blob([cipherWallet]));
     const link = document.createElement('a');
     link.href = url;
@@ -212,21 +207,16 @@ class App extends React.Component {
           reward:arweave.ar.winstonToAr(transaction.reward)
         }
         txArray.push(obj)
-        console.log(txArray)
         const newBalance  = Decimal.sub(arwBalance, arValue).valueOf()
         this.setState({cryptoTxPass:'',txSendArray:txArray, arValue:'', arReceiverAddress:'', txRunning:false, arwBalance:newBalance, modalTx:false})
         const status = await arweave.transactions.getStatus(transaction.id)
         walletData = ''
-        console.log(status)
         alert('Transaction Deploy')
-        console.log(this.state.txSendArray)
         return
       }
       alert('Transaction Failed')
       walletData = ''
       this.setState({txRunning:false, cryptoTxPass:''})
-      console.log(response)
-      console.log(transaction)
     }catch(err){
       alert('Transaction Failed')
       this.setState({txRunning:false, cryptoTxPass:''})
