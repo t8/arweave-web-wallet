@@ -10,6 +10,7 @@ const GenerateWallet = ({generateWallet, classes, handlePassCheck, boolPassWalle
         <Checkbox color="default" value={boolPassWallet} onChange={handlePassCheck('boolPassGenerateWallet')} />
             <Typography>Password</Typography>
             <InputBase
+            type={'password'}
             classes={{
                 root: classes.bootstrapRoot,
                 input: classes.bootstrapInput,
