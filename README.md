@@ -1,4 +1,9 @@
+### WALLET DEVELOPED BY EDUCATIONAL PURPOSES, USE ONLY AFTER VERIFYING THE CODE
+
+
 ## Arweave Web Wallet
+The Wallet is on: https://arweave.net/7uvdKfgPuxyfipcqdnMEeDSW1CKbuBgVTvL248-VPZA
+
 
 ## Available Scripts
 
