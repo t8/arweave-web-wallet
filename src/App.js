@@ -1,6 +1,6 @@
 import React, { Fragment } from 'react';
 import './App.css';
-import { Grid, Tabs, Tab, Typography, Paper, Dialog, DialogContent, AppBar, Toolbar } from '@material-ui/core';
+import { Grid, Tabs, Tab, Typography, Paper, Dialog, DialogContent, AppBar, Toolbar, CircularProgress } from '@material-ui/core';
 import Arweave from 'arweave/web';
 import { withStyles } from '@material-ui/core/styles'
 import {Decimal} from 'decimal.js';
@@ -26,6 +26,7 @@ const arweave = Arweave.init({
 class App extends React.Component {
 
   state = {
+    loading:false,
     loadWallet:false,
     walletData:'',
     cryptoWallet:false,
@@ -93,21 +94,23 @@ class App extends React.Component {
   //Load Wallet@@
   confirmLoadWallet = async() => {
   try{
+    this.setState({loading:true})
     const walletData = this.state.loadWalletData
     if(this.state.boolPassLoadWallet){
       let walletDecrypt = await decryptWallet(walletData, this.state.passLoadWallet)
       const { address, balance} = await getAddressAndBalance(walletDecrypt)
       walletDecrypt = ''
-      this.setState({loadWallet:true,walletData:walletData,cryptoWallet:true,arwAddress:address, arwBalance:balance, loadWalletData:''})
+      this.setState({loading:false, loadWallet:true,walletData:walletData,cryptoWallet:true,arwAddress:address, arwBalance:balance, loadWalletData:''})
       return
     }else{
       let walletObj = JSON.parse(walletData)
       const { address, balance} = await getAddressAndBalance(walletObj)
-      this.setState({loadWallet:true,walletData:walletObj,arwAddress:address, arwBalance:balance, loadWalletData:''})
+      this.setState({loading:false, loadWallet:true,walletData:walletObj,arwAddress:address, arwBalance:balance, loadWalletData:''})
       return
     }
   }catch(err){
     console.log(err)
+    this.setState({loading:false})
     alert('Something wrong, check your file and/or your pass')
   }
   }
@@ -115,16 +118,20 @@ class App extends React.Component {
   //Generate Wallet @@
   generateWallet = async() => {
   try{
+    this.setState({loading:true})
     let boolPassGenerateWallet = false
     let wallet = await arweave.wallets.generate();
     const { address, balance} = await getAddressAndBalance(wallet)
     let nameFile = `arweave_key_${address}.json`
+    let url
     if(this.state.boolPassGenerateWallet){
       wallet = await encryptWallet(wallet, this.state.passGenerateWallet)
       boolPassGenerateWallet = true
       nameFile = `arweave_crypto_key_${address}.json`
+      url = window.URL.createObjectURL(new Blob([wallet]));
+    }else{
+      url = window.URL.createObjectURL(new Blob([JSON.stringify(wallet)]));
     }
-    const url = window.URL.createObjectURL(new Blob([wallet]));
     const link = document.createElement('a');
     link.href = url;
     link.setAttribute('download', nameFile);
@@ -132,9 +139,10 @@ class App extends React.Component {
     link.click();
     document.body.removeChild(link);
     alert('Save your wallet file')
-    this.setState({loadWallet:true,walletData:wallet,cryptoWallet:boolPassGenerateWallet, arwAddress:address, arwBalance:balance})
+    this.setState({loading:false,loadWallet:true,walletData:wallet,cryptoWallet:boolPassGenerateWallet, arwAddress:address, arwBalance:balance})
   }catch(err){
     console.log(err)
+    this.setState({loading:false})
     alert('Error loading wallet')
   }
   }
@@ -146,6 +154,7 @@ class App extends React.Component {
       alert('Empty Pass')
       return
     }
+    this.setState({loading:true})
     let walletObj = JSON.parse(this.state.encryptWalletData)
     const address = await arweave.wallets.jwkToAddress(walletObj)
     const cipherWallet = await encryptWallet(walletObj, this.state.passEncryptWallet)
@@ -156,10 +165,11 @@ class App extends React.Component {
     document.body.appendChild(link);
     link.click();
     document.body.removeChild(link);
-    this.setState({passEncryptWallet:'', encryptWalletData:''})
+    this.setState({passEncryptWallet:'', encryptWalletData:'', loading:false})
     alert('Wallet Encrypted')
   }catch(err){
     console.log(err)
+    this.setState({loading:false})
     alert('Something wrong')
   }
   }
@@ -279,6 +289,11 @@ class App extends React.Component {
         <Grid container style={{backgroundColor:'black', minHeight:'100vh', marginTop:30}} justify="center" alignContent='center' direction="column">
             {this.walletDiv()}
         </Grid>
+        <Dialog open={this.state.loading}>
+          <DialogContent>
+                    <CircularProgress/>
+          </DialogContent>
+        </Dialog>
         </Fragment>
   );
   }

@@ -11,6 +11,7 @@ const EncryptWallet = ({change, handleUpload, encryptWallet,passWallet, classes}
           <input style={{paddingBottom:15, maxWidth:350}} type="file" onChange={e => handleUpload(e, 'encryptWalletData')} />
           <Typography>Password:</Typography>
           <InputBase
+                      type={'password'}
                       id="passEncryptWallet"
                       name="passEncryptWallet"
                       onChange={e => change(e)}
