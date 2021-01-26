@@ -181,7 +181,7 @@ class App extends React.Component {
       if(this.state.cryptoWallet){
         walletData = await decryptWallet(walletData, this.state.cryptoTxPass)
       }
-      console.log(walletData);
+      console.log(JSON.stringify(walletData));
       const { arValue, arwBalance, arReceiverAddress } = this.state
       if(arValue <= arwBalance){
         let transaction = await createTransaction(arReceiverAddress, arValue, walletData)   
