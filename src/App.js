@@ -181,7 +181,8 @@ class App extends React.Component {
       if(this.state.cryptoWallet){
         walletData = await decryptWallet(walletData, this.state.cryptoTxPass)
       }
-      const { arValue, arwBalance, arReceiverAddress} = this.state
+      console.log(walletData);
+      const { arValue, arwBalance, arReceiverAddress } = this.state
       if(arValue <= arwBalance){
         let transaction = await createTransaction(arReceiverAddress, arValue, walletData)   
       const fee = arweave.ar.winstonToAr(transaction.reward)
