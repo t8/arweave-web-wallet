@@ -3,7 +3,7 @@ import CRYPTO from "crypto-js"
 
 const arweave = Arweave.init({
     host: 'arweave.net',
-    port: 80,           
+    port: 443,           
     protocol: 'https',  
     timeout: 20000,     
     logging: false,     
